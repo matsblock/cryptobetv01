@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
 
   env: {
-    MORALIS_API_KEY: 'xxxxx'
+    MORALIS_API_KEY: 'O3i5jPl78uSeh61yMkj2W4iaTXgZtch2cmiCngwcwTJPbfmgcqnmSiGZvtgOwel7'
   }
 }
 

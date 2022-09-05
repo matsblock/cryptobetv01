@@ -2,8 +2,24 @@ import Moralis from 'moralis'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { daiAbi, betContractAbi, sep03ContractAddress, requestId } from "../constants"
+import { ethers } from "ethers"
+import moment from 'moment'
 
-export default function Home({address, nativeBalance}) {
+
+export default function Home({ address, nativeBalance, _daiBalance, gameCreateArray }) {
+  const formattedDaiBalance = ethers.utils.formatEther(_daiBalance.replaceAll('"', ''));
+
+  const gameCreateList = gameCreateArray.map((gameCreate) =>
+    <li key={gameCreate[0]}>
+      {
+        gameCreate[2] + " VS " + gameCreate[3] + " - " + moment.unix(gameCreate[1]).format('LLLL')
+      }
+    </li>
+  )
+
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,9 +29,11 @@ export default function Home({address, nativeBalance}) {
       </Head>
 
       <main className={styles.main}>
+        El saldo en ether de {address} es {nativeBalance} y en Dai es {formattedDaiBalance}
         
-        El saldo en ether de {address} es {nativeBalance}
-
+        {
+          gameCreateList
+        }
       </main>
 
       <footer className={styles.footer}>
@@ -35,14 +53,68 @@ export default function Home({address, nativeBalance}) {
 }
 
 export async function getServerSideProps(context) {
+  console.log("running on server side!!!")
+
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
   const address = '0x73c94f5735Ea62447ee51cF69eEc02cc19497be3';
   const nativeBalance = await Moralis.EvmApi.account.getNativeBalance({
-      address,
-      chain: 42,
+    address,
+    chain: 42,
   });
-  console.log("running on server side!!!")
-  return {
-      props: { address, nativeBalance: nativeBalance.result.balance.ether,  },
+
+  const options = {
+    chain: 42,
+    address: "0x29282139fD1A88ccAED6d3bb7f547192144C0f95",
+    functionName: "balanceOf",
+    abi: daiAbi,
+    params: { account: "0x73c94f5735Ea62447ee51cF69eEc02cc19497be3" },
   };
+
+  const daiBalance = await Moralis.EvmApi.native.runContractFunction(options);
+  const _daiBalance = JSON.stringify(daiBalance)
+
+
+  const getGameCreateLengthOptions = {
+    chain: 42,
+    address: sep03ContractAddress,
+    functionName: "getGameCreateStructLength",
+    abi: betContractAbi,
+    params: {
+      _requestId: requestId,
+    },
+  };
+
+  const gameCreateLength = await Moralis.EvmApi.native.runContractFunction(getGameCreateLengthOptions)
+  const _gameCreateLength = gameCreateLength.data;
+  const gameCreateArray = [];
+
+  for (var idx = 0; idx < _gameCreateLength; idx++) {
+    let array = await pushGetGameCreateToAnArray(idx);
+    array = array.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '')
+    array = array.split(',')
+    gameCreateArray.push(array)
+  }
+
+  return {
+    props: { address, nativeBalance: nativeBalance.result.balance.ether, _daiBalance, gameCreateArray },
+  };
+}
+
+
+const pushGetGameCreateToAnArray = async function (__idx) {
+  const getGameCreateOptions = {
+    chain: 42,
+    address: sep03ContractAddress,
+    functionName: "getGameCreate",
+    abi: betContractAbi,
+    params: {
+      _requestId: requestId,
+      _idx: String(__idx)
+    },
+  };
+
+  const _gameCreate = await Moralis.EvmApi.native.runContractFunction(getGameCreateOptions);
+  const gameCreate = JSON.stringify(_gameCreate)
+  return gameCreate;
+
 }

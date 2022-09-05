@@ -1,0 +1,804 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_treasuryAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_tokenAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_homeOdd",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_awayOdd",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tiedOdd",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_homeTeamLogo",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_awayTeamLogo",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "FailedTransferLINK",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkCancelled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkFulfilled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkRequested",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "_getOracleAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "approvePayment",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "awayOdd",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "awayTeamLogo",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "awayTotalBets",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "betOpen",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "bets",
+        "outputs": [
+            {
+                "internalType": "enum betContract.betOption",
+                "name": "option",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "odd",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_payment",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes4",
+                "name": "_callbackFunctionId",
+                "type": "bytes4"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_expiration",
+                "type": "uint256"
+            }
+        ],
+        "name": "cancelRequest",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "claimUserReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "closeBet",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "depositDAI",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes[]",
+                "name": "_result",
+                "type": "bytes[]"
+            }
+        ],
+        "name": "fulfillSchedule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_idx",
+                "type": "uint256"
+            }
+        ],
+        "name": "getGameCreate",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint32",
+                        "name": "gameId",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "uint40",
+                        "name": "startTime",
+                        "type": "uint40"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "homeTeam",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "awayTeam",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct EnetscoresConsumer.GameCreate",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getGameCreateStructLength",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_idx",
+                "type": "uint256"
+            }
+        ],
+        "name": "getGameResolve",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint32",
+                        "name": "gameId",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "homeScore",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "awayScore",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "status",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct EnetscoresConsumer.GameResolve",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "homeOdd",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "homeTeamLogo",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "homeTotalBets",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "matchStatus",
+        "outputs": [
+            {
+                "internalType": "uint32",
+                "name": "gameId",
+                "type": "uint32"
+            },
+            {
+                "internalType": "uint8",
+                "name": "homeScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "awayScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "string",
+                "name": "status",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "matchWinner",
+        "outputs": [
+            {
+                "internalType": "enum betContract.betOption",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "openBet",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "payDAItoTreasury",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "requestIdGames",
+        "outputs": [
+            {
+                "internalType": "bytes",
+                "name": "",
+                "type": "bytes"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_specId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_payment",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_market",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_leagueId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_date",
+                "type": "uint256"
+            }
+        ],
+        "name": "requestSchedule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_specId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_payment",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_market",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_leagueId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_date",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "_gameIds",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "requestSchedule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_idx",
+                "type": "uint256"
+            }
+        ],
+        "name": "resolveWinner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_odd",
+                "type": "uint256"
+            }
+        ],
+        "name": "setAwayOdd",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "enum betContract.betOption",
+                "name": "_choice",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "setBet",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_odd",
+                "type": "uint256"
+            }
+        ],
+        "name": "setHomeOdd",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_status",
+                "type": "string"
+            },
+            {
+                "internalType": "uint8",
+                "name": "_homeScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "_awayScore",
+                "type": "uint8"
+            }
+        ],
+        "name": "setMockMatch",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "setMockResolveWinner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_oracle",
+                "type": "address"
+            }
+        ],
+        "name": "setOracle",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes[]",
+                "name": "_games",
+                "type": "bytes[]"
+            }
+        ],
+        "name": "setRequestIdGames",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_odd",
+                "type": "uint256"
+            }
+        ],
+        "name": "setTiedOdd",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tiedOdd",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tiedTotalBets",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tokenAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalBets",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "treasuryAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address payable",
+                "name": "_payee",
+                "type": "address"
+            }
+        ],
+        "name": "withdrawLink",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
