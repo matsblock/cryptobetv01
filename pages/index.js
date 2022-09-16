@@ -19,7 +19,6 @@ export default function Home({ address, nativeBalance, _daiBalance, gameCreateAr
   )
 
 
-
   return (
     <div className={styles.container}>
       <Head>
@@ -30,7 +29,7 @@ export default function Home({ address, nativeBalance, _daiBalance, gameCreateAr
 
       <main className={styles.main}>
         El saldo en ether de {address} es {nativeBalance} y en Dai es {formattedDaiBalance}
-        
+
         {
           gameCreateList
         }
@@ -84,7 +83,7 @@ export async function getServerSideProps(context) {
     },
   };
 
-  const gameCreateLength = await Moralis.EvmApi.native.runContractFunction(getGameCreateLengthOptions)
+  const gameCreateLength = await Moralis.EvmApi.utils.runContractFunction(getGameCreateLengthOptions)
   const _gameCreateLength = gameCreateLength.data;
   const gameCreateArray = [];
 
@@ -113,7 +112,7 @@ const pushGetGameCreateToAnArray = async function (__idx) {
     },
   };
 
-  const _gameCreate = await Moralis.EvmApi.native.runContractFunction(getGameCreateOptions);
+  const _gameCreate = await Moralis.EvmApi.utils.runContractFunction(getGameCreateOptions);
   const gameCreate = JSON.stringify(_gameCreate)
   return gameCreate;
 

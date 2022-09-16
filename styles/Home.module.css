@@ -127,3 +127,14 @@
     filter: invert(1);
   }
 }
+
+.matchCards{
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.matchCard{
+    padding:1em;
+}
